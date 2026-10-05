@@ -1,0 +1,116 @@
+{
+  "metrics": {
+    "BM25": {
+      "nDCG@10": 0.6518925893260473,
+      "MRR@10": 0.6186150793650796,
+      "Recall@10": 0.7739999999999999,
+      "Recall@100": 0.8730555555555555
+    },
+    "MiniLM": {
+      "nDCG@10": 0.6450816521455768,
+      "MRR@10": 0.6047248677248677,
+      "Recall@10": 0.7833333333333333,
+      "Recall@100": 0.925
+    },
+    "Hybrid RRF": {
+      "nDCG@10": 0.6966706826834163,
+      "MRR@10": 0.6572645502645503,
+      "Recall@10": 0.8373888888888888,
+      "Recall@100": 0.9576666666666667
+    }
+  },
+  "selected_hybrid": {
+    "k": 10,
+    "weight": 0.5,
+    "selection_split": "BEIR train",
+    "objective": "nDCG@10",
+    "candidate_depth": 100
+  },
+  "audit": {
+    "corpus_documents": 5183,
+    "queries_total": 1109,
+    "development_queries": 809,
+    "test_queries": 300,
+    "train_test_normalized_text_overlap": [
+      "870",
+      "1292"
+    ],
+    "normalization": "lowercase word tokens joined by spaces",
+    "empty_titles": 0,
+    "empty_abstracts": 0,
+    "duplicate_corpus_texts": 0,
+    "max_sequence_length": 256,
+    "documents_truncated": 3681,
+    "wordpiece_length_quantiles": {
+      "0.0": 70.0,
+      "0.5": 316.0,
+      "0.9": 502.0,
+      "0.99": 760.7200000000012,
+      "1.0": 1939.0
+    },
+    "test_relevant_documents_per_query": {
+      "1": 277,
+      "2": 14,
+      "3": 4,
+      "4": 3,
+      "5": 2
+    },
+    "nonoverlap_sensitivity": {
+      "BM25": {
+        "nDCG@10": 0.6529120026772288,
+        "MRR@10": 0.6194111537232345,
+        "Recall@10": 0.7758389261744966,
+        "Recall@100": 0.875559284116331
+      },
+      "MiniLM": {
+        "nDCG@10": 0.64605535450897,
+        "MRR@10": 0.6054277191861084,
+        "Recall@10": 0.785234899328859,
+        "Recall@100": 0.924496644295302
+      },
+      "Hybrid RRF": {
+        "nDCG@10": 0.6979906201510903,
+        "MRR@10": 0.6583200170448493,
+        "Recall@10": 0.8396532438478747,
+        "Recall@100": 0.9573825503355705
+      }
+    }
+  },
+  "timings": {
+    "index": {
+      "bm25_build_seconds": 0.5971791000338271,
+      "model_load_seconds": 2.1423683000029996,
+      "corpus_encode_or_cache_seconds": 120.41299009998329
+    },
+    "development": {
+      "bm25_seconds": 13.220057899947278,
+      "dense_encode_and_search_seconds": 2.5385886000003666,
+      "query_count": 809,
+      "mode": "batched throughput, not single-request latency"
+    },
+    "test": {
+      "bm25_seconds": 4.860404800041579,
+      "dense_encode_and_search_seconds": 1.0485608000308275,
+      "query_count": 300,
+      "mode": "batched throughput, not single-request latency",
+      "rrf_fusion_seconds": 0.018652200000360608
+    }
+  },
+  "provenance": {
+    "dataset_md5": "5f7d1de60b170fc8027bb7898e2efca1",
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "embedding_cache_hit": false,
+    "device": "cpu",
+    "torch_threads": 4,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.15",
+    "packages": {
+      "torch": "2.8.0",
+      "sentence-transformers": "6.1.0",
+      "numpy": "2.4.6",
+      "rank-bm25": "0.2.2",
+      "streamlit": "1.61.0"
+    }
+  }
+}

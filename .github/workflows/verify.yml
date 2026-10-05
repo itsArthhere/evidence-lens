@@ -1,0 +1,48 @@
+name: Verify retrieval
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  full-reproducibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '4'
+      MKL_NUM_THREADS: '4'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install explicit CPU PyTorch, then project dependencies
+        run: |
+          python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            data
+            .cache/embeddings
+          key: scifact-minilm-${{ runner.os }}-${{ hashFiles('evidence_lens/data.py', 'evidence_lens/retrieval.py', 'requirements.txt') }}
+      - name: Offline unit tests
+        run: python -m pytest tests -m 'not integration' -q
+      - name: Full network-backed corpus and held-out evaluation
+        run: python -m evidence_lens.experiment
+      - name: Real Streamlit integration
+        env:
+          RUN_INTEGRATION: '1'
+        run: python -m pytest tests -q
+      - name: Execute notebook and verify metrics
+        run: python scripts/execute_notebook.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retrieval-results
+          path: |
+            outputs/
+            notebooks/01_evidence_retrieval.ipynb

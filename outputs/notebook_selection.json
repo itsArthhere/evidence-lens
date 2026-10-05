@@ -1,0 +1,7 @@
+{
+  "k": 10,
+  "weight": 0.5,
+  "selection_split": "BEIR train",
+  "objective": "nDCG@10",
+  "candidate_depth": 100
+}
